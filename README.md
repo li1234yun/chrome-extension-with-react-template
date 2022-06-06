@@ -20,29 +20,34 @@
 为了方便代码提示（21 世纪），此项目使用了 Typescript 进行代码提示和编译。
 另使用 React 构建插件页面，使用 TailwindCSS 进行样式管理。
 通过 webpack 打包生成插件不同的页面。
+使用babel支持现代es语法。
 
 ## 开发环境准备
 
-### 依赖
-
-- 项目依赖
-  - Typescript
-  - react,react-dom
-  - TailwindCSS
-- 开发依赖
-  - webpack
-    - webpack,webpack-cli 编译文件
-    - html-webpack-plugin 自动注入编译文件至 html
-    - clean-webpack-plugin 清理编译依赖
-
 ### Typescript
 
+> yarn add -D typescript
+
+- 安装typescript
+- 使用tsc命令行，初始化typescript配置
+  - `tsc init`初始化配置
 - 禁止 typescript 编译输出文件
   - 开启`noEmit`配置或者使用`--noEmit`命令行参数
+- 运行tsc命令行执行typescript检查
+
+### React
+
+> yarn add react react-dom @types/react @types/react-dom
+
+- 安装react,react-dom以及相关的typescript类型包@types/react,@types/react-dom
+- 将React挂载至html节点
 
 ### Webpack 插件
 
+> yarn add -D 
+
 - [babel-loader](Babel webpack 插件)
+  - js语法转换工具，可以支持最新的js规范，将其编译为兼容的代码
 - [ts-loader](https://webpack.js.org/guides/typescript/)
   - 用于 webpack 编译 TypeScript，使用 tsc 命令和 tsconfig.json 配置文件
 - [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#options)
@@ -67,6 +72,20 @@
   - @babel/preset-react react 预设
     - 修改 tsconfig.json `jsx => react`
   - [babel-loader webpack 打包](https://webpack.docschina.org/loaders/babel-loader/)
+- 添加babel设置文件
+
+  ```json
+  {
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-typescript",
+        "@babel/react"
+    ]
+  }
+  ```
+
+- 通过安装并使用`preset-*预设配置包定义babel规则
+- webpack使用`babel-loader`处理ts和js的处理（babel可以编译ts，但不能进行ts静态检查，所以只使用babel进行ts编译，另babel暂不支持三类特殊情况，详情见[typescript官方文档](https://www.typescriptlang.org/docs/handbook/babel-with-typescript.html)）
 
 ### TailwindCSS 初始化
 
