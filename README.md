@@ -20,7 +20,7 @@
 为了方便代码提示（21 世纪），此项目使用了 Typescript 进行代码提示和编译。
 另使用 React 构建插件页面，使用 TailwindCSS 进行样式管理。
 通过 webpack 打包生成插件不同的页面。
-使用babel支持现代es语法。
+使用 babel 支持现代 es 语法。
 
 ## 开发环境准备
 
@@ -28,26 +28,28 @@
 
 > yarn add -D typescript
 
-- 安装typescript
-- 使用tsc命令行，初始化typescript配置
-  - `tsc init`初始化配置
+- 安装 typescript
+- 使用 tsc 命令行，初始化 typescript 配置
+  - `tsc --init`初始化配置文件`tsconfig.json`
 - 禁止 typescript 编译输出文件
   - 开启`noEmit`配置或者使用`--noEmit`命令行参数
-- 运行tsc命令行执行typescript检查
+- 运行 tsc 命令行执行 typescript 检查
 
 ### React
 
 > yarn add react react-dom @types/react @types/react-dom
 
-- 安装react,react-dom以及相关的typescript类型包@types/react,@types/react-dom
-- 将React挂载至html节点
+- 安装 react,react-dom 以及相关的 typescript 类型包@types/react,@types/react-dom
+- 将 React 挂载至 html 节点
 
-### Webpack 插件
+### Webpack
 
-> yarn add -D 
+> yarn add -D webpack webpack-cli webpack-dev-server \
+> html-webpack-plugin clean-webpack-plugin copy-webpack-plugin \
+> sass sass-loader postcss postcss-loader css-loader style-loader babel-loader
 
 - [babel-loader](Babel webpack 插件)
-  - js语法转换工具，可以支持最新的js规范，将其编译为兼容的代码
+  - js 语法转换工具，可以支持最新的 js 规范，将其编译为兼容的代码
 - [ts-loader](https://webpack.js.org/guides/typescript/)
   - 用于 webpack 编译 TypeScript，使用 tsc 命令和 tsconfig.json 配置文件
 - [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#options)
@@ -63,7 +65,18 @@
 - [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)
   - 提取 style 至独立文件
 
+#### Webpack Server
+
+[官方文档](https://webpack.js.org/configuration/dev-server/#serveindex)
+| [webpack server 脚手架参数](https://github.com/webpack/webpack-cli/blob/master/SERVE-OPTIONS-v4.md)
+
+运行开发服务，提供实时预览。
+
+[简化编译输出](https://webpack.js.org/configuration/stats/#stats)
+
 ### Babel 设置
+
+> yarn add -D @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript
 
 - babel 依赖
   - @babel/core @babel/cli
@@ -72,22 +85,20 @@
   - @babel/preset-react react 预设
     - 修改 tsconfig.json `jsx => react`
   - [babel-loader webpack 打包](https://webpack.docschina.org/loaders/babel-loader/)
-- 添加babel设置文件
+- 添加 babel 设置文件
 
   ```json
   {
-    "presets": [
-        "@babel/preset-env",
-        "@babel/preset-typescript",
-        "@babel/react"
-    ]
+    "presets": ["@babel/preset-env", "@babel/preset-typescript", "@babel/react"]
   }
   ```
 
-- 通过安装并使用`preset-*预设配置包定义babel规则
-- webpack使用`babel-loader`处理ts和js的处理（babel可以编译ts，但不能进行ts静态检查，所以只使用babel进行ts编译，另babel暂不支持三类特殊情况，详情见[typescript官方文档](https://www.typescriptlang.org/docs/handbook/babel-with-typescript.html)）
+- 通过安装并使用`preset-\*预设配置包定义 babel 规则
+- webpack module 添加规则使用`babel-loader`处理 ts 和 js 的处理（babel 可以编译 ts，但不能进行 ts 静态检查，所以只使用 babel 进行 ts 编译，另 babel 暂不支持三类特殊情况，详情见[typescript 官方文档](https://www.typescriptlang.org/docs/handbook/babel-with-typescript.html)）
 
 ### TailwindCSS 初始化
+
+> yarn add -D tailwindcss autoprefixer postcss
 
 #### 文档
 
@@ -96,9 +107,21 @@
 | [postcss loader](https://webpack.docschina.org/loaders/postcss-loader/)
 | [sass loader](https://webpack.docschina.org/loaders/sass-loader/)
 
-- 支持使用 scss 编写自定义样式
-- 支持 postcss 裁剪样式
+- 初始化 tailwindcss 配置文件
+- 指定代码内容规则
+- 设置 postcss 使用 tailwindcss 处理
 - 各个 loader 配置使用独立配置文件，如：postcss 配置文件为：`postcss.config.js`
+
+  ```js
+  module.exports = {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  }
+  ```
+
+- webpack modules 添加 css 处理规则
 
 [初始化文档](https://tailwindcss.com/docs/installation/using-postcss)
 
@@ -114,15 +137,6 @@ graph TD
 ```
 
 > 要使 css 处理流程生效，需要在 index.[tj]s 代码 `import index.css` 文件才能生效
-
-### Webpack Server
-
-[官方文档](https://webpack.js.org/configuration/dev-server/#serveindex)
-[webpack server 脚手架参数](https://github.com/webpack/webpack-cli/blob/master/SERVE-OPTIONS-v4.md)
-
-运行开发服务，提供实时预览。
-
-[简化编译输出](https://webpack.js.org/configuration/stats/#stats)
 
 ## 说明
 
