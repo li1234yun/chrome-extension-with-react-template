@@ -91,7 +91,7 @@ graph TD
   LS[style loader]
   LP[postcss loader]
 
-  F --> LA --编译sass/scss为css文件--> LP --裁剪css--> LC --解决css导入问题--> LS --将css插入DOM，可设置插入的方式--> DOM
+  F --> LA --编译sass/scss为css文件--> LP --裁剪css--> LC --解决css导入问题--> LS --将css插入DOM,可设置插入的方式--> DOM
 ```
 
 > 要使 css 处理流程生效，需要在 index.[tj]s 代码 `import index.css` 文件才能生效
